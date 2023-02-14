@@ -1,3 +1,4 @@
+using Microsoft.VisualStudio.TestPlatform.Common.Interfaces;
 using System;
 using Xunit;
 
@@ -29,15 +30,29 @@ namespace LoggingKata.Test
             //       extract the Longitude.  Your .csv file will have many of these lines,
             //       each representing a TacoBell location
 
-            //Arrange
-
+            //Arrange - wite the code we need in order to call the method we're testing
+            var tacoParserInstance =  new TacoParser();
             //Act
-
+            var actual = tacoParserInstance.Parse(line);
             //Assert
+            Assert.Equal(expected, actual.Location.Longitude);
         }
 
 
         //TODO: Create a test ShouldParseLatitude
 
+        [Theory]
+        [InlineData("34.073638, -84.677017, Taco Bell Acwort...", 34.073638)]
+        public void ShouldParseLatitude(string line, double expected)
+        {
+            //Arrange
+            var tacoParserInstance = new TacoParser();
+
+            //Act
+            var actual = tacoParserInstance.Parse(line).Location.Latitude;
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
